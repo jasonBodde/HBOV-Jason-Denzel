@@ -1,57 +1,64 @@
 <?php
 session_start();
+$score = $_SESSION["score"] ?? 0;
 
-$score=$_SESSION["score"]??0;
-
-if($score>=3){
-$result="HBO-ICT past waarschijnlijk goed bij jou!";
-$color="success";
-}
-elseif($score>=2){
-$result="Je hebt interesse in ICT, maar onderzoek de opleiding nog verder.";
-$color="warning";
-}
-else{
-$result="Misschien past een andere studie beter bij jou.";
-$color="danger";
+/* ------------------------------ New scoring logic ------------------------------ */
+if ($score >= 30) {
+    $title = "HBO-ICT past perfect bij jou!";
+    $text = "Je hebt een sterke interesse in ICT en technologie. Deze studie sluit waarschijnlijk goed aan bij jouw talenten en interesses.";
+    $icon = "bi-check-circle-fill";
+    $color = "success";
+} elseif ($score >= 15) {
+    $title = "ICT kan bij je passen";
+    $text = "Je hebt interesse in ICT, maar misschien wil je nog verder onderzoeken welke richting het beste bij je past.";
+    $icon = "bi-lightbulb-fill";
+    $color = "warning";
+} else {
+    $title = "ICT past waarschijnlijk niet bij je";
+    $text = "Je interesses liggen mogelijk in een andere richting. Het is de moeite waard om ook andere studies te verkennen.";
+    $icon = "bi-x-circle-fill";
+    $color = "danger";
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="nl">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>Resultaat</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <title>Resultaat - HBO-ICT Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+<body class="result-body">
 
-<body class="bg-light">
-
-<div class="container d-flex justify-content-center align-items-center vh-100">
-
-<div class="card shadow p-5 text-center">
-
-<h1 class="mb-4">Resultaat</h1>
-
-<h3 class="text-<?php echo $color;?> mb-3">
-<?php echo $result;?>
-</h3>
-
-<p class="mb-4">
-Je score: <strong><?php echo $score;?></strong>
-</p>
-
-<a href="index.php" class="btn btn-primary">
-Quiz opnieuw doen
-</a>
-
-</div>
-
+<div class="overlay-gradient d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card result-card shadow-lg rounded-4 text-center p-5 fade-in">
+                    <h1 class="mb-3 fw-bold">Jouw resultaat</h1>
+                    <i class="bi <?php echo $icon; ?> display-1 text-<?php echo $color; ?> mb-3"></i>
+                    <h3 class="text-<?php echo $color; ?> mb-3">
+                        <?php echo $title; ?>
+                    </h3>
+                    <p class="lead mb-4">
+                        <?php echo $text; ?>
+                    </p>
+                    <p class="mb-4 fs-5">
+                        Score: <strong><?php echo $score; ?></strong>
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="index.php" class="btn btn-outline-primary px-4">
+                            <i class="bi bi-arrow-repeat me-1"></i>Quiz opnieuw doen
+                        </a>
+                        <a href="https://www.google.com/search?q=studiekeuze+ict" target="_blank" class="btn btn-primary px-4">
+                            <i class="bi bi-search me-1"></i>Meer over ICT-studies
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
