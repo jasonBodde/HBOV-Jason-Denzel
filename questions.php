@@ -198,13 +198,13 @@ $progress = (($q + 1) / $total) * 100;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="quiz-body">
+<body class="app-body">
 
 <div class="overlay-gradient d-flex align-items-center justify-content-center min-vh-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card quiz-card shadow-lg rounded-4 p-4 fade-in">
+                <div id="quizCard" class="card quiz-card shadow-lg rounded-4 p-4 card-hidden">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
                             Vraag <?php echo $q + 1; ?> van <?php echo $total; ?>
@@ -214,13 +214,20 @@ $progress = (($q + 1) / $total) * 100;
                         </a>
                     </div>
 
+                    <p class="text-success small mb-2">
+                        <i class="bi bi-emoji-smile me-1"></i>Je bent goed bezig, ga zo door!
+                    </p>
+
                     <div class="progress mb-4 quiz-progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                        <div id="progressBar"
+                             class="progress-bar progress-bar-striped bg-info"
                              role="progressbar"
-                             style="width: <?php echo $progress; ?>%;"
+                             data-target="<?php echo $progress; ?>"
+                             style="width: 0%;"
                              aria-valuenow="<?php echo $progress; ?>"
                              aria-valuemin="0"
                              aria-valuemax="100">
+                            <?php echo round($progress); ?>%
                         </div>
                     </div>
 
@@ -229,25 +236,75 @@ $progress = (($q + 1) / $total) * 100;
                         <?php echo $current['question']; ?>
                     </h4>
 
-                    <form method="POST">
+                    <!-- Optional sound effect placeholder -->
+                    <audio id="clickSound">
+                        <!-- Voeg hier een .mp3 of .wav bestand toe als je wilt -->
+                    </audio>
+
+                    <form method="POST" id="quizForm">
+                        <input type="hidden" name="answer" id="answerInput">
                         <?php foreach ($current['options'] as $index => $option) { ?>
-                            <button type="submit"
-                                    name="answer"
-                                    value="<?php echo $index; ?>"
-                                    class="btn btn-answer w-100 text-start mb-3 d-flex align-items-center justify-content-between">
+                            <button type="button"
+                                    data-value="<?php echo $index; ?>"
+                                    class="btn btn-answer w-100 text-start mb-3 d-flex align-items-center justify-content-between answer-option">
                                 <span>
                                     <i class="bi <?php echo $option[1]; ?> me-2"></i>
                                     <?php echo $option[0]; ?>
                                 </span>
-                                <i class="bi bi-chevron-right"></i>
+                                <span class="chevron">
+                                    <i class="bi bi-chevron-right"></i>
+                                </span>
                             </button>
                         <?php } ?>
                     </form>
+
+                    <p class="small text-muted mt-2 mb-0">
+                        Tip: kies het antwoord dat het beste bij jouw gevoel past.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Fade-in card and animate progress bar
+document.addEventListener('DOMContentLoaded', () => {
+    const card = document.getElementById('quizCard');
+    card.classList.remove('card-hidden');
+    card.classList.add('fade-in-up');
+
+    const bar = document.getElementById('progressBar');
+    const target = parseFloat(bar.getAttribute('data-target')) || 0;
+    setTimeout(() => {
+        bar.style.width = target + '%';
+    }, 150);
+});
+
+// Answer selection with highlight, sound, and delayed submit
+const options = document.querySelectorAll('.answer-option');
+const answerInput = document.getElementById('answerInput');
+const form = document.getElementById('quizForm');
+const sound = document.getElementById('clickSound');
+
+options.forEach(btn => {
+    btn.addEventListener('click', () => {
+        options.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        const value = btn.getAttribute('data-value');
+        answerInput.value = value;
+
+        if (sound && sound.play) {
+            try { sound.currentTime = 0; sound.play(); } catch (e) {}
+        }
+
+        setTimeout(() => {
+            form.submit();
+        }, 250);
+    });
+});
+</script>
 </body>
 </html>
