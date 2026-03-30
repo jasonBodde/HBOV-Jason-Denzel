@@ -25,7 +25,7 @@
         #specializations .landing-card h4,
         #future .landing-card p,
         #future .landing-card h5 {
-            color: #1a1d20 !important;
+            color: #000000 !important;
         }
 
         /* ----------------------------- */
@@ -36,7 +36,7 @@
         header h1,
         #quizLink h3,
         #quizLink p {
-            color: #f5f7fa !important;
+            color: #000000 !important;
         }
 
         /* ----------------------------- */
@@ -44,7 +44,7 @@
         /* ----------------------------- */
         #specializations h2,
         #future h2 {
-            color: #e8ecff !important;
+            color: #000000 !important;
         }
 
         /* ----------------------------- */
@@ -60,7 +60,7 @@
         /* 5. Startknop tekstkleur fix   */
         /* ----------------------------- */
         .start-btn {
-            color: #212529 !important;
+            color: #000000 !important;
         }
 
         .start-btn:hover {
@@ -74,6 +74,32 @@
 
 <div class="container py-5">
 
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vakken.php">Vakken</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="specialisaties.php">Specialisaties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quiz.php">Quiz</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- HEADER -->
     <header class="text-center mb-5 fade-in-up">
         <h1 class="fw-bold display-5">Welkom bij de HBO‑ICT Opleiding</h1>
@@ -83,7 +109,7 @@
     </header>
 
     <!-- INTRO CARD -->
-    <section id="intro" class="landing-card p-4 rounded-4 shadow fade-in-up mb-5">
+    <section id="intro" class="landing-card p-4 rounded-4 shadow fade-in-up mb-5 interactive-card">
         <div class="row align-items-center">
             <div class="col-md-6">
                 <h2 class="fw-bold mb-3">Wat is HBO‑ICT?</h2>
@@ -95,10 +121,15 @@
                 <p>
                     De opleiding duurt gemiddeld 4 jaar en biedt talloze specialisaties, projecten en stages.
                 </p>
+                <button class="btn btn-primary mt-3 pulse-btn" onclick="scrollToQuiz()">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Ontdek meer
+                </button>
             </div>
 
             <div class="col-md-6 text-center">
-                <img src="ict.png" alt="ICT Opleiding" class="img-fluid rounded-4 shadow-lg">
+                <div class="image-container">
+                    <img src="ict.png" alt="ICT Opleiding" class="img-fluid rounded-4 shadow-lg hover-lift">
+                </div>
             </div>
         </div>
     </section>
@@ -198,5 +229,75 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Smooth scrolling function
+    function scrollToQuiz() {
+        document.getElementById('quizLink').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
+
+    // Add interactive effects
+    document.addEventListener('DOMContentLoaded', () => {
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.landing-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+                this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.1)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+
+        // Add click ripple effect
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('landing-card') || e.target.closest('.landing-card')) {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple-effect';
+                ripple.style.left = e.offsetX + 'px';
+                ripple.style.top = e.offsetY + 'px';
+
+                const card = e.target.closest('.landing-card');
+                if (card) {
+                    card.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                }
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in-up elements
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add floating animation to icons
+        document.querySelectorAll('.landing-card i').forEach(icon => {
+            icon.style.animation = 'float 3s ease-in-out infinite';
+        });
+    });
+</script>
 </body>
 </html>

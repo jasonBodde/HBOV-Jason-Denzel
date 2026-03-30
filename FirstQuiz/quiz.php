@@ -213,7 +213,6 @@ $questions = [
         "options" => [
             ["Statistische analyse en programmeren", "bi-bar-chart"],
             ["Alleen goed kunnen programmeren", "bi-code-slash"],
-                       ["Alleen goed kunnen programmeren", "bi-code-slash"],
             ["Netwerkbeheer", "bi-router"],
             ["Webdesign", "bi-browser-chrome"]
         ],
@@ -375,9 +374,19 @@ $q = isset($_GET['q']) ? intval($_GET['q']) : 0;
 /* ------------------------------ Form handling (POST → REDIRECT) ------------------------------ */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['answer'])) {
-        if ($_POST['answer'] == $questions[$q]['correct']) {
-            $_SESSION['score'] += 2;
+        $answer = intval($_POST['answer']);
+        $time_taken = intval($_POST['time_taken'] ?? 30);
+
+        if ($answer == $questions[$q]['correct']) {
+            // Base score + time bonus (faster = more points)
+            $time_bonus = max(0, 30 - $time_taken); // 0-30 bonus points
+            $_SESSION['score'] += 2 + floor($time_bonus / 3);
+        } elseif ($answer === -1) {
+            // Timeout - no points
+            $_SESSION['score'] += 0;
         }
+        // Wrong answer - no points added
+
         $next = $q + 1;
         if ($next >= $total) {
             header("Location: result.php");
@@ -410,15 +419,54 @@ $progress = (($q + 1) / $total) * 100;
 
 <div class="container py-5">
 
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vakken.php">Vakken</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="specialisaties.php">Specialisaties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="quiz.php">Quiz</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="quiz-card card p-4 shadow fade-in-up">
 
-        <!-- Vraag teller -->
-        <span class="badge bg-primary-subtle mb-3">
-            Vraag <?php echo $q + 1; ?> van <?php echo $total; ?>
-        </span>
+        <!-- Timer and Progress -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-primary-subtle">
+                Vraag <?php echo $q + 1; ?> van <?php echo $total; ?>
+            </span>
+            <div class="timer-container">
+                <i class="bi bi-clock me-2"></i>
+                <span id="timer" class="fw-bold text-warning">30</span>
+                <span class="text-muted">s</span>
+            </div>
+        </div>
+
+        <!-- Streak Counter -->
+        <div class="streak-container mb-3">
+            <i class="bi bi-fire text-danger me-1"></i>
+            <span id="streak">0</span> op rij goed
+        </div>
 
         <!-- Vraag -->
-        <h4 class="fw-bold mb-4">
+        <h4 class="fw-bold mb-4 question-text">
             <?php echo $current['question']; ?>
         </h4>
 
@@ -428,17 +476,30 @@ $progress = (($q + 1) / $total) * 100;
             <?php foreach ($current['options'] as $index => $option): ?>
                 <button type="button"
                         class="btn-answer w-100 text-start mb-3 d-flex align-items-center"
-                        onclick="selectAnswer(<?php echo $index; ?>)">
+                        onclick="selectAnswer(<?php echo $index; ?>, <?php echo $current['correct']; ?>)"
+                        data-index="<?php echo $index; ?>">
                     <i class="bi <?php echo $option[1]; ?> me-2"></i>
-                    <?php echo $option[0]; ?>
+                    <span class="option-text"><?php echo $option[0]; ?></span>
+                    <div class="feedback-icon ms-auto">
+                        <i class="bi bi-check-circle-fill text-success d-none"></i>
+                        <i class="bi bi-x-circle-fill text-danger d-none"></i>
+                    </div>
                 </button>
             <?php endforeach; ?>
 
             <input type="hidden" name="answer" id="answerInput">
+            <input type="hidden" name="time_taken" id="timeInput">
 
-            <button class="btn btn-primary w-100 mt-3 start-btn">
-                Volgende vraag
-            </button>
+            <div id="feedback-section" class="text-center mb-3 d-none">
+                <div id="feedback-message" class="alert alert-success mb-3">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span>Goed gedaan!</span>
+                </div>
+                <button type="button" id="nextBtn" class="btn btn-primary px-4" onclick="nextQuestion()">
+                    <i class="bi bi-arrow-right me-2"></i>Volgende vraag
+                </button>
+            </div>
+
         </form>
 
         <!-- Voortgangsbalk -->
@@ -452,12 +513,155 @@ $progress = (($q + 1) / $total) * 100;
 </div>
 
 <script>
-    // Selecteer antwoord-knop
-    function selectAnswer(index) {
-        document.querySelectorAll('.btn-answer').forEach(btn => btn.classList.remove('selected'));
-        document.querySelectorAll('.btn-answer')[index].classList.add('selected');
-        document.getElementById('answerInput').value = index;
+    let timer = 30;
+    let timerInterval;
+    let selectedAnswer = null;
+    let correctAnswer = null;
+    let streak = parseInt(localStorage.getItem('quizStreak') || '0');
+    let startTime = Date.now();
+
+    // Initialize streak display
+    document.getElementById('streak').textContent = streak;
+
+    // Start timer
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timer--;
+            document.getElementById('timer').textContent = timer;
+
+            // Change color based on time remaining
+            const timerEl = document.getElementById('timer');
+            if (timer <= 10) {
+                timerEl.className = 'fw-bold text-black';
+            } else if (timer <= 20) {
+                timerEl.className = 'fw-bold text-black';
+            } else {
+                timerEl.className = 'fw-bold text-black';
+            }
+
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
+            }
+        }, 1000);
     }
+
+    // Select answer with immediate feedback
+    function selectAnswer(index, correct) {
+        if (selectedAnswer !== null) return; // Prevent multiple selections
+
+        selectedAnswer = index;
+        correctAnswer = correct;
+        clearInterval(timerInterval);
+
+        const buttons = document.querySelectorAll('.btn-answer');
+        const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+
+        // Show feedback immediately
+        buttons.forEach((btn, i) => {
+            const feedbackIcon = btn.querySelector('.feedback-icon i');
+            if (i === correct) {
+                btn.classList.add('correct-answer');
+                feedbackIcon.classList.remove('d-none');
+                feedbackIcon.classList.add('bi-check-circle-fill', 'text-success');
+            } else if (i === index && i !== correct) {
+                btn.classList.add('wrong-answer');
+                feedbackIcon.classList.remove('d-none');
+                feedbackIcon.classList.add('bi-x-circle-fill', 'text-danger');
+            }
+            btn.disabled = true;
+        });
+
+        // Update streak
+        if (index === correct) {
+            streak++;
+            localStorage.setItem('quizStreak', streak);
+            showFeedback(true);
+            playSound('correct');
+        } else {
+            streak = 0;
+            localStorage.setItem('quizStreak', streak);
+            showFeedback(false);
+            playSound('wrong');
+        }
+
+        document.getElementById('streak').textContent = streak;
+        document.getElementById('answerInput').value = index;
+        document.getElementById('timeInput').value = timeTaken;
+
+        // Show next button after a delay
+        setTimeout(() => {
+            document.getElementById('feedback-section').classList.remove('d-none');
+        }, 1500);
+    }
+
+    function showFeedback(isCorrect) {
+        const feedbackSection = document.getElementById('feedback-section');
+        const feedbackMessage = document.getElementById('feedback-message');
+
+        if (isCorrect) {
+            feedbackMessage.className = 'alert alert-success mb-3';
+            feedbackMessage.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i><span>Goed gedaan!</span>';
+        } else {
+            feedbackMessage.className = 'alert alert-danger mb-3';
+            feedbackMessage.innerHTML = '<i class="bi bi-x-circle-fill me-2"></i><span>Helaas, dat is niet correct.</span>';
+        }
+    }
+
+    function nextQuestion() {
+        document.getElementById('quizForm').submit();
+    }
+
+    function autoSubmit() {
+        // Auto-submit with no answer if time runs out
+        document.getElementById('answerInput').value = -1; // Indicate timeout
+        document.getElementById('timeInput').value = 30;
+        document.getElementById('quizForm').submit();
+    }
+
+    function playSound(type) {
+        // Create audio context for sound effects
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            if (type === 'correct') {
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } else {
+                oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            }
+        } catch (e) {
+            // Fallback: no sound if Web Audio API not supported
+        }
+    }
+
+    // Add some CSS animations
+    document.addEventListener('DOMContentLoaded', () => {
+        startTimer();
+
+        // Add click animations to buttons
+        document.querySelectorAll('.btn-answer').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    });
 </script>
 
 </body>
