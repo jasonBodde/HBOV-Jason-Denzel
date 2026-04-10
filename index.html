@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBO-ICT School | Opleiding en Campus</title>
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="app-body overlay-gradient" data-page="home">
+
+<div class="container py-5">
+
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="index.html">HBO-ICT School</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vakken.html">Vakken</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="specialisaties.html">Specialisaties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quiz.html">Quiz</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="text-center mb-5 fade-in-up">
+        <h1 class="fw-bold display-5">Welkom bij de HBO‑ICT School</h1>
+        <p class="lead">
+            Ontdek onze opleiding, de campus, praktijkgerichte vakken en de carrièremogelijkheden binnen ICT.
+        </p>
+    </header>
+
+    <!-- ABOUT SCHOOL -->
+    <section id="about" class="my-5 fade-in-up">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h2 class="fw-bold mb-3">Een school voor toekomstgerichte ICT</h2>
+                    <p>
+                        Bij HBO-ICT School leer je in een praktijkgerichte omgeving met ervaren docenten,
+                        moderne laboratoria en persoonlijke begeleiding. Onze opleiding helpt je een stevige basis
+                        op te bouwen voor de ICT-arbeidsmarkt.
+                    </p>
+                    <ul class="list-unstyled mt-3">
+                        <li class="mb-2"><i class="bi bi-building me-2 text-primary"></i>Moderne campus met praktijklabs</li>
+                        <li class="mb-2"><i class="bi bi-person-lines-fill me-2 text-primary"></i>Stage- en studiebegeleiding</li>
+                        <li class="mb-2"><i class="bi bi-award me-2 text-primary"></i>Taakgerichte projecten en krachtige leermiddelen</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h4 class="fw-bold mb-3">Wat kun je verwachten?</h4>
+                    <p>
+                        Een afwisselend studieprogramma met onderwerpen uit softwareontwikkeling, cybersecurity,
+                        data-analyse en netwerkbeheer. Je werkt vaak samen aan echte opdrachten voor bedrijven.
+                    </p>
+                    <p class="mb-0"><strong>De school bereidt je voor op stages, projecten en een sterke start in je carrière.</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTRO CARD -->
+    <section id="intro" class="landing-card p-4 rounded-4 shadow fade-in-up mb-5 interactive-card">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Wat is HBO‑ICT?</h2>
+                <p>
+                    De HBO‑ICT opleiding leidt je op tot een veelzijdige IT‑professional. Je leert programmeren,
+                    netwerken beheren, data analyseren, systemen beveiligen en software ontwerpen. De opleiding
+                    combineert theorie met praktijk, zodat je klaar bent voor de snelgroeiende IT‑wereld.
+                </p>
+                <p>
+                    De opleiding duurt gemiddeld 4 jaar en biedt talloze specialisaties, projecten en stages.
+                </p>
+                <button class="btn btn-primary mt-3 pulse-btn" onclick="scrollToQuiz()">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>Ontdek meer
+                </button>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <div class="image-container">
+                    <img src="ict.png" alt="ICT Opleiding" class="img-fluid rounded-4 shadow-lg hover-lift">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section id="quizLink" class="text-center my-5 fade-in-up">
+        <h3 class="fw-bold">Test je kennis met onze interactieve quiz!</h3>
+        <p>
+            Benieuwd hoeveel je al weet over de HBO‑ICT opleiding?  
+            Doe de quiz en ontdek het!
+        </p>
+        <a href="quiz.html" class="btn start-btn px-4 py-2 fs-5">
+            <i class="bi bi-lightning-charge-fill me-2"></i> Start de Quiz
+        </a>
+    </section>
+
+    <!-- SPECIALISATIES -->
+    <section id="specializations" class="my-5 fade-in-up">
+        <h2 class="fw-bold text-center mb-4">Specialisaties binnen HBO‑ICT</h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h4 class="fw-bold"><i class="bi bi-code-slash me-2"></i>Software Development</h4>
+                    <p>
+                        Leer professionele software bouwen: van websites tot mobiele apps en complexe systemen.
+                        Je werkt met moderne programmeertalen en frameworks.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h4 class="fw-bold"><i class="bi bi-shield-lock me-2"></i>Cybersecurity</h4>
+                    <p>
+                        Bescherm systemen tegen cyberaanvallen, leer ethisch hacken en ontdek hoe je
+                        organisaties digitaal veilig houdt.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h4 class="fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Data Science</h4>
+                    <p>
+                        Duik in de wereld van data‑analyse, machine learning en kunstmatige intelligentie.
+                        Ontdek patronen en bouw voorspellende modellen.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TOEKOMST -->
+    <section id="future" class="my-5 fade-in-up">
+        <h2 class="fw-bold text-center mb-4">Wat kun je worden met HBO‑ICT?</h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+                <div class="landing-card p-4 rounded-4 shadow h-100 text-center">
+                    <i class="bi bi-laptop fs-1 mb-3"></i>
+                    <h5>Software Engineer</h5>
+                    <p>Ontwerp en ontwikkel professionele softwareoplossingen.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="landing-card p-4 rounded-4 shadow h-100 text-center">
+                    <i class="bi bi-shield-check fs-1 mb-3"></i>
+                    <h5>Security Specialist</h5>
+                    <p>Bescherm bedrijven tegen digitale dreigingen.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="landing-card p-4 rounded-4 shadow h-100 text-center">
+                    <i class="bi bi-graph-up-arrow fs-1 mb-3"></i>
+                    <h5>Data Analyst</h5>
+                    <p>Analyseer data en ondersteun belangrijke beslissingen.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="landing-card p-4 rounded-4 shadow h-100 text-center">
+                    <i class="bi bi-cloud fs-1 mb-3"></i>
+                    <h5>Cloud Engineer</h5>
+                    <p>Werk met cloudplatformen zoals Azure, AWS en Google Cloud.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="site-footer text-center mt-5 pt-4 pb-3">
+        <div class="container">
+            <p class="mb-1 fw-semibold">HBO-ICT School | Opleiding voor toekomstige ICT-professionals</p>
+            <p class="small text-muted mb-0">Contact: info@hbo-ict.school | Tel: 012-345-6789 | Bezoek onze open dag</p>
+        </div>
+    </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js" defer></script>
+</body>
+</html>
