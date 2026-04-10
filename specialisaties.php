@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specialisaties in de HBO-ICT Opleiding</title>
+    <title>HBO-ICT School | Specialisaties</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
     <!-- NAVIGATION -->
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT</a>
+            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT School</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,9 +39,9 @@
     </nav>
 
     <header class="card-round p-4 mb-5 fade-in-up">
-        <h1 class="section-heading">Specialisaties in de HBO-ICT Opleiding</h1>
+        <h1 class="section-heading">Specialisaties van HBO-ICT School</h1>
         <p class="section-subtitle mb-0">
-            Ontdek de verschillende specialisaties die je kunt volgen binnen de HBO-ICT opleiding.
+            Ontdek de verschillende specialisaties die je kunt volgen binnen onze praktijkgerichte ICT-opleiding.
         </p>
     </header>
 
@@ -110,6 +110,12 @@
 
         </div>
     </section>
+    <footer class="site-footer text-center mt-5 pt-4 pb-3">
+        <div class="container">
+            <p class="mb-1 fw-semibold">HBO-ICT School | Specialisaties en studierichtingen</p>
+            <p class="small text-muted mb-0">Contact: info@hbo-ict.school | Tel: 012-345-6789 | Bezoek onze open dag</p>
+        </div>
+    </footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

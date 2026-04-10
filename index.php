@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBO-ICT Opleiding</title>
+    <title>HBO-ICT School | Opleiding en Campus</title>
 
     <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,63 +11,6 @@
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- OVERRIDES: tekstkleur fix -->
-    <style>
-        /* ----------------------------- */
-        /* 1. Donkere tekst in kaarten   */
-        /* ----------------------------- */
-        .landing-card,
-        .landing-card p,
-        .landing-card h2,
-        .landing-card h4,
-        #specializations .landing-card p,
-        #specializations .landing-card h4,
-        #future .landing-card p,
-        #future .landing-card h5 {
-            color: #000000 !important;
-        }
-
-        /* ----------------------------- */
-        /* 2. Lichte tekst op achtergrond */
-        /* ----------------------------- */
-        body,
-        header p,
-        header h1,
-        #quizLink h3,
-        #quizLink p {
-            color: #000000 !important;
-        }
-
-        /* ----------------------------- */
-        /* 3. Titels op donkere achtergrond */
-        /* ----------------------------- */
-        #specializations h2,
-        #future h2 {
-            color: #000000 !important;
-        }
-
-        /* ----------------------------- */
-        /* 4. Iconen accentkleur         */
-        /* ----------------------------- */
-        .landing-card i,
-        #specializations i,
-        #future i {
-            color: #0d6efd !important;
-        }
-
-        /* ----------------------------- */
-        /* 5. Startknop tekstkleur fix   */
-        /* ----------------------------- */
-        .start-btn {
-            color: #000000 !important;
-        }
-
-        .start-btn:hover {
-            color: #0d6efd !important;
-            background-color: #ffffff !important;
-        }
-    </style>
 </head>
 
 <body class="app-body overlay-gradient">
@@ -77,7 +20,7 @@
     <!-- NAVIGATION -->
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT</a>
+            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT School</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -102,11 +45,42 @@
 
     <!-- HEADER -->
     <header class="text-center mb-5 fade-in-up">
-        <h1 class="fw-bold display-5">Welkom bij de HBO‑ICT Opleiding</h1>
+        <h1 class="fw-bold display-5">Welkom bij de HBO‑ICT School</h1>
         <p class="lead">
-            Ontdek alles over de opleiding: vakken, specialisaties, stages, toekomstmogelijkheden en meer.
+            Ontdek onze opleiding, de campus, praktijkgerichte vakken en de carrièremogelijkheden binnen ICT.
         </p>
     </header>
+
+    <!-- ABOUT SCHOOL -->
+    <section id="about" class="my-5 fade-in-up">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h2 class="fw-bold mb-3">Een school voor toekomstgerichte ICT</h2>
+                    <p>
+                        Bij HBO-ICT School leer je in een praktijkgerichte omgeving met ervaren docenten,
+                        moderne laboratoria en persoonlijke begeleiding. Onze opleiding helpt je een stevige basis
+                        op te bouwen voor de ICT-arbeidsmarkt.
+                    </p>
+                    <ul class="list-unstyled mt-3">
+                        <li class="mb-2"><i class="bi bi-building me-2 text-primary"></i>Moderne campus met praktijklabs</li>
+                        <li class="mb-2"><i class="bi bi-person-lines-fill me-2 text-primary"></i>Stage- en studiebegeleiding</li>
+                        <li class="mb-2"><i class="bi bi-award me-2 text-primary"></i>Taakgerichte projecten en krachtige leermiddelen</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="landing-card p-4 rounded-4 shadow h-100">
+                    <h4 class="fw-bold mb-3">Wat kun je verwachten?</h4>
+                    <p>
+                        Een afwisselend studieprogramma met onderwerpen uit softwareontwikkeling, cybersecurity,
+                        data-analyse en netwerkbeheer. Je werkt vaak samen aan echte opdrachten voor bedrijven.
+                    </p>
+                    <p class="mb-0"><strong>De school bereidt je voor op stages, projecten en een sterke start in je carrière.</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- INTRO CARD -->
     <section id="intro" class="landing-card p-4 rounded-4 shadow fade-in-up mb-5 interactive-card">
@@ -225,6 +199,13 @@
 
         </div>
     </section>
+
+    <footer class="site-footer text-center mt-5 pt-4 pb-3">
+        <div class="container">
+            <p class="mb-1 fw-semibold">HBO-ICT School | Opleiding voor toekomstige ICT-professionals</p>
+            <p class="small text-muted mb-0">Contact: info@hbo-ict.school | Tel: 012-345-6789 | Bezoek onze open dag</p>
+        </div>
+    </footer>
 
 </div>
 

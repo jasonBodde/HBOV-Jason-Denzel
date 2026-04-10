@@ -405,7 +405,7 @@ $progress = (($q + 1) / $total) * 100;
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Quiz – Vraag <?php echo $q + 1; ?></title>
+    <title>HBO-ICT School | Studiequiz</title>
 
     <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -422,7 +422,7 @@ $progress = (($q + 1) / $total) * 100;
     <!-- NAVIGATION -->
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent mb-4">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT</a>
+            <a class="navbar-brand fw-bold" href="index.php">HBO-ICT School</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -444,6 +444,11 @@ $progress = (($q + 1) / $total) * 100;
             </div>
         </div>
     </nav>
+
+    <header class="text-center mb-4">
+        <h1 class="section-heading">Studiekeuzequiz HBO-ICT</h1>
+        <p class="section-subtitle">Test jouw interesse in ICT en ontdek welke richting binnen de opleiding goed bij jou past.</p>
+    </header>
 
     <div class="quiz-card card p-4 shadow fade-in-up">
 
@@ -510,6 +515,12 @@ $progress = (($q + 1) / $total) * 100;
         </div>
 
     </div>
+    <footer class="site-footer text-center mt-5 pt-4 pb-3">
+        <div class="container">
+            <p class="mb-1 fw-semibold">HBO-ICT School | Studiequiz voor toekomstige ICT-studenten</p>
+            <p class="small text-muted mb-0">Contact: info@hbo-ict.school | Tel: 012-345-6789 | Open dag informatie op de homepage</p>
+        </div>
+    </footer>
 </div>
 
 <script>
